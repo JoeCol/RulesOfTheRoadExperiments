@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/user/Documents/GitHub/SimpleCarSimulator/SimpleCarSimulator/bin/SimpleCarSimulator.zip"/>
+	<classpathentry kind="lib" path="resources"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

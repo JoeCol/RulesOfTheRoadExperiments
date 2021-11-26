@@ -11,10 +11,12 @@ import prologfiles.RulesOfTheRoad.ROTROutcome;
 
 public class PlannedCar extends AbstractROTRCar
 {
-
-	public PlannedCar(Point startPos, int startingSpeed, String fileImage)
+	private boolean haveMoved = false;
+	ArrayDeque<Direction> movement = new ArrayDeque<Direction>();
+	
+	public PlannedCar(Point startPos, int startingSpeed)
 	{
-		super(startPos, startingSpeed, fileImage);
+		super(startPos, startingSpeed, System.getProperty("user.dir") + "/resources/redcar.png");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -39,8 +41,7 @@ public class PlannedCar extends AbstractROTRCar
 	@Override
 	protected boolean isFinished(Point arg0)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return haveMoved && arg0 == getStartingPosition();
 	}
 
 	@Override

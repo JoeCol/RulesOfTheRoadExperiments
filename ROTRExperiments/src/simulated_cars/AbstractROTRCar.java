@@ -13,6 +13,27 @@ public abstract class AbstractROTRCar extends AbstractCar
 	ArrayList<String> beliefs = new ArrayList<String>();
 	ArrayList<String> intentions = new ArrayList<String>();
 	
+	public class CarBeliefsIntentions
+	{
+		public boolean I_approachingTrafficLight; 
+		public boolean B_lightRed;
+		public boolean B_lightAmber;
+		public boolean B_unableToStopByWhiteLine;
+		
+		public boolean I_setOff;
+		public boolean B_atTrafficLight;
+		public boolean B_lightGreen;
+		public boolean B_exitClear;
+		
+		public boolean B_vehicleSafe = true;
+		public boolean B_canReadNumberPlate = true;
+		public boolean B_routePlanned = true;
+		public boolean B_allPassengersWearingSeatBeltsAsRequired = true;
+		public boolean B_allChildrenUsingChildSeatAsRequired = true;
+	}
+	
+	public CarBeliefsIntentions cbi = new CarBeliefsIntentions();
+	
 	public AbstractROTRCar(Point startPos, int startingSpeed, String fileImage)
 	{
 		super(startPos, startingSpeed, fileImage);
