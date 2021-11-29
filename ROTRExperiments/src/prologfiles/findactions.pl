@@ -332,7 +332,8 @@ generateActions(r174a, B, I, R) :- member(enterBoxJunction, I), \+member(routeCl
 generateActions(r174a, B, I, R) :- generateActions(r175, B, I, R), !.
 
 %Rule Description: Traffic Lights (Stop at red)
-generateActions(r175, B, I, R) :- member(approachingTrafficLight,I), (member(lightRed,B); member(lightAmber,B)), \+member(unableToStopByWhiteLine,B), generateActions(r176, B, I, Y), append([must-stop_at_white_line],Y,R), !.
+generateActions(r175, B, I, R) :- (member(approachingTrafficLight,I); member(atTrafficLight, B)), \+member(lightGreen, B), generateActions(r176, B, I, Y), append([must-stop_at_white_line],Y,R), !.
+generateActions(r175, B, I, R) :- (member(approachingTrafficLight,I); member(atTrafficLight, B)), member(lightAmber, B), \+member(unableToStopByWhiteLine,B), generateActions(r176, B, I, Y), append([must-stop_at_white_line],Y,R), !.
 generateActions(r175, B, I, R) :- generateActions(r176, B, I, R), !.
 
 %Rule Description: Stay stopped at red

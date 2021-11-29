@@ -1,7 +1,6 @@
 package simulated_cars;
 
 import java.util.ArrayDeque;
-import java.util.Collection;
 import java.util.HashSet;
 
 import core_car_sim.AbstractCell;
