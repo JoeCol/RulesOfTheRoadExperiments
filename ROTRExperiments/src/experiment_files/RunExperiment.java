@@ -160,7 +160,7 @@ public class RunExperiment
 					}*/
 					//While testing
 					
-					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/simulated_cars/TrafficLightExperiment.txt"));
+					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/simulated_cars/OvertakingExperiment.txt"));
 					simworld = LoadWorld.loadWorldFromFile(br, cal);
 					pnlWorld.setLayout(new GridLayout(simworld.getHeight(), simworld.getWidth(), 1, 1));
 					updateGUIWorld();

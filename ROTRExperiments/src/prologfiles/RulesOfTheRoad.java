@@ -28,10 +28,10 @@ public class RulesOfTheRoad
 	public static ArrayList<ROTROutcome> getROTRViolations(ArrayList<String> beliefs, ArrayList<String> intentions)
 	{
 		ArrayList<ROTROutcome> toreturn = new ArrayList<ROTROutcome>();
-		String fileLocation = "src/prologfiles/runrotr.pl";
+		String fileLocation = System.getProperty("user.dir") + "/src/prologfiles/runrotr.pl";
 		String toWrite = runFile.replace("BELIEFS", beliefs.toString()).replace("INTENTIONS", intentions.toString());
 		
-		ProcessBuilder pb = new ProcessBuilder(new String[] {"swipl", fileLocation});
+		ProcessBuilder pb = new ProcessBuilder("swipl", fileLocation);
 		try {
 			PrintWriter out = new PrintWriter(fileLocation);
 			out.print(toWrite);
