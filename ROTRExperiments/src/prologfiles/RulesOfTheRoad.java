@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import simulated_cars.AbstractROTRCar.CarBelief;
+import simulated_cars.AbstractROTRCar.CarIntention;
 
 public class RulesOfTheRoad
 {
@@ -25,7 +29,7 @@ public class RulesOfTheRoad
 		}
 	}
 	
-	public static ArrayList<ROTROutcome> getROTRViolations(ArrayList<String> beliefs, ArrayList<String> intentions)
+	public static ArrayList<ROTROutcome> getROTRViolations(HashMap<CarBelief, Boolean> beliefs, HashMap<CarIntention, Boolean> intentions)
 	{
 		ArrayList<ROTROutcome> toreturn = new ArrayList<ROTROutcome>();
 		String fileLocation = System.getProperty("user.dir") + "/src/prologfiles/runrotr.pl";
