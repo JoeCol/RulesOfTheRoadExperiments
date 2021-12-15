@@ -28,35 +28,6 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 		beliefs.clear();
 		updateOutcomes();
 		movement.add(Direction.north);
-		for (ROTROutcome outcome : rulesOfTheRoad)
-		{
-			switch(outcome.action)
-			{
-				case "wait_until_route_clear":
-					if (exitClear)
-					{
-						setSpeed(1);
-					}
-					else
-					{
-						setSpeed(0);
-						movement.pop();
-					}
-					break;
-				case "stop_at_white_line":
-					if (!atWhiteLine)
-					{
-						setSpeed(1);
-					}
-					else
-					{
-						setSpeed(0);
-						setOff = true;
-						movement.pop();
-					}
-					break;
-			}
-		}
 		haveMoved = true;
 		return movement;
 	}
@@ -564,83 +535,36 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 		{
 			switch(cb)
 			{
-			case CB_accessProperty:
-				break;
-			case CB_activefrontalairbaginfrontpassengerseat:
-				break;
-			case CB_adverseWeather:
-				break;
-			case CB_againstFlowOfTraffic:
-				break;
 			case CB_allChildrenUsingChildSeatAsRequired:
 				break;
 			case CB_allPassengersWearingSeatBeltsAsRequired:
 				break;
-			case CB_amSlowMovingVehicle:
-				break;
 			case CB_amber:
-				break;
-			case CB_animalInRoad:
-				break;
-			case CB_approachingBrow:
 				break;
 			case CB_approachingCorner:
 				break;
 			case CB_approachingFog:
 				break;
-			case CB_approachingHumpBridge:
-				break;
 			case CB_approachingJunction:
 				break;
-			case CB_approachingRoundabout:
-				break;
-			case CB_approachingSchoolCrossing:
-				break;
-			case CB_atCrossing:
-				break;
 			case CB_atTrafficLight:
-				break;
-			case CB_authorisedParkingPlace:
-				break;
-			case CB_barriersOpen:
 				break;
 			case CB_behindWantToOvertake:
 				break;
 			case CB_bendInRoad:
 				break;
-			case CB_betweenLanes:
-				break;
-			case CB_betweenSunriseSunset:
-				break;
-			case CB_boosterSeatsRequired:
-				break;
-			case CB_boosterSeatsfittedCorrectly:
-				break;
-			case CB_bridleway:
-				break;
 			case CB_brokendown:
 				break;
-			case CB_builtuparea:
-				break;
-			case CB_busLane:
-				break;
-			case CB_busLaneInOperation:
-				break;
-			case CB_canPassAnimal:
-				break;
 			case CB_canReadNumberPlate:
+				beliefs.put(cb, true);
 				break;
 			case CB_canStopBeforeCarInFrontStops:
-				break;
-			case CB_carInFrontTurningRight:
 				break;
 			case CB_carTowardsYou:
 				break;
 			case CB_carriageway:
 				break;
 			case CB_centerLine:
-				break;
-			case CB_childPassengers:
 				break;
 			case CB_clearRoadAhead:
 				break;
@@ -652,31 +576,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_completeOvertakeBeforeSolidWhiteLine:
 				break;
-			case CB_congestedTraffic:
-				break;
-			case CB_contraflow:
-				break;
-			case CB_controlledCrossing:
-				break;
-			case CB_crawlerLaneExists:
-				break;
-			case CB_crossinglightsOff:
-				break;
-			case CB_crowdedShoppingStreet:
-				break;
-			case CB_cycleLaneUnavoidable:
-				break;
-			case CB_cyclelane:
-				break;
 			case CB_damagedOrInjury:
-				break;
-			case CB_dangerousToStop:
-				break;
-			case CB_dazzled:
-				break;
-			case CB_dedicatedParkingArea:
-				break;
-			case CB_directedByPoliceOfficer:
 				break;
 			case CB_directionSigns:
 				break;
@@ -684,37 +584,12 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_doubleWhiteLines:
 				break;
-			case CB_doubleYellowLine:
-				break;
-			case CB_downhill:
-				break;
-			case CB_drivenThroughDeepPuddle:
-				break;
-			case CB_driverWantsControl:
-				break;
 			case CB_driving:
+				beliefs.put(cb, true);
 				break;
 			case CB_dualCarriageWay:
 				break;
-			case CB_dullWeather:
-				break;
-			case CB_dvsaflashingAmber:
-				break;
-			case CB_dvsafollowRequest:
-				break;
-			case CB_dvsapullOverSignal:
-				break;
-			case CB_emergencyArea:
-				break;
-			case CB_emergencyVehicle:
-				break;
-			case CB_emergencyVehicleFlashingLightsAndStopped:
-				break;
-			case CB_enterRestrictedLane:
-				break;
 			case CB_enterWhiteDiagonalStripeWhiteBrokenBorderNecessary:
-				break;
-			case CB_equestrianCrossing:
 				break;
 			case CB_essentialTravel:
 				break;
@@ -730,53 +605,18 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_flashingRed:
 				break;
-			case CB_flashingSirens:
-				break;
-			case CB_fog:
-				break;
-			case CB_fogLightsOn:
-				break;
-			case CB_footpath:
-				break;
-			case CB_forceTrafficToTramlane:
-				break;
 			case CB_fuel:
-				break;
-			case CB_gearNeutral:
-				break;
-			case CB_giveWaySign:
-				break;
-			case CB_goingDownhill:
-				break;
-			case CB_greenFilterLightForExit:
 				break;
 			case CB_greenLight:
 				break;
-			case CB_hardshoulder:
-				break;
-			case CB_hasAdvancedStop:
-				break;
 			case CB_hazardAhead:
 				break;
-			case CB_headlightsDipped:
-				break;
 			case CB_headlightsOff:
-				break;
-			case CB_hill:
-				break;
-			case CB_homezone:
-				break;
-			case CB_hovLane:
-				break;
-			case CB_icyWeather:
-				break;
-			case CB_inIncident:
+				beliefs.put(cb, true);
 				break;
 			case CB_indicatorOn:
 				break;
 			case CB_informOtherRoadUser:
-				break;
-			case CB_kerbLoweredForWheelchair:
 				break;
 			case CB_laneAvailiable:
 				break;
@@ -788,19 +628,11 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_lanes2:
 				break;
-			case CB_lanes3:
-				break;
-			case CB_lanes4plus:
-				break;
 			case CB_largeVehicle:
 				break;
 			case CB_largeVehicleInFront:
 				break;
 			case CB_leftMostLane:
-				break;
-			case CB_levelCrossing:
-				break;
-			case CB_levelCrossingApproach:
 				break;
 			case CB_lightAmber:
 				break;
@@ -810,55 +642,9 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_lightRed:
 				break;
-			case CB_lightsCausingDiscomfortToOthers:
-				break;
-			case CB_litStreetLightingRoad:
-				break;
-			case CB_loadBalanced:
-				break;
-			case CB_loadNotStickingOut:
-				break;
-			case CB_loadSecure:
-				break;
-			case CB_london:
-				break;
-			case CB_longQueueBehind:
-				break;
 			case CB_mainRoadNextRoad:
 				break;
-			case CB_markedBayForLoading:
-				break;
 			case CB_maxPossibleSpeed25orLess:
-				break;
-			case CB_meetHeightRequirement:
-				break;
-			case CB_meetParkingRestrictions:
-				break;
-			case CB_middleLane:
-				break;
-			case CB_misleadingSignal:
-				break;
-			case CB_motorcyclistAhead:
-				break;
-			case CB_motorcyclistInFront:
-				break;
-			case CB_motorway:
-				break;
-			case CB_nearBrowOfHill:
-				break;
-			case CB_nearHumpbridge:
-				break;
-			case CB_nearLevelCrossing:
-				break;
-			case CB_nearPedistrianCrossing:
-				break;
-			case CB_nearSchool:
-				break;
-			case CB_nearTaxiRank:
-				break;
-			case CB_nearTramStop:
-				break;
-			case CB_nearbusStop:
 				break;
 			case CB_nextLaneClear:
 				break;
@@ -868,21 +654,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_noLights:
 				break;
-			case CB_noOvertakingSign:
-				break;
-			case CB_noPassingPlaceInFront:
-				break;
 			case CB_nodanger:
-				break;
-			case CB_nonMotorTraffic:
-				break;
-			case CB_numLanesReducing:
-				break;
-			case CB_obstructCycleFacilities:
-				break;
-			case CB_onMotorway:
-				break;
-			case CB_onPavement:
 				break;
 			case CB_openCrossing:
 				break;
@@ -890,63 +662,9 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_oppositeTrafficIsland:
 				break;
-			case CB_overtaken:
-				break;
 			case CB_overtaking:
 				break;
-			case CB_overtakingHighSidedVehicle:
-				break;
-			case CB_overtakingSchoolBus:
-				break;
-			case CB_parked:
-				break;
-			case CB_parkedInRoad:
-				break;
-			case CB_parkingAllowedBySigns:
-				break;
-			case CB_parkingRestrictions:
-				break;
 			case CB_passedFirstWhiteLine:
-				break;
-			case CB_pavement:
-				break;
-			case CB_pedestrianCrossing:
-				break;
-			case CB_pedestriansInRoad:
-				break;
-			case CB_pelicanCrossing:
-				break;
-			case CB_policeDirectingLeft:
-				break;
-			case CB_policeflashingBlue:
-				break;
-			case CB_policeflashingHeadlight:
-				break;
-			case CB_policehornSounding:
-				break;
-			case CB_preventingAccessForEmergencyServices:
-				break;
-			case CB_prohibitedToStopPark:
-				break;
-			case CB_propertyEntrance:
-				break;
-			case CB_publicTransport:
-				break;
-			case CB_puffinCrossing:
-				break;
-			case CB_pulledOver:
-				break;
-			case CB_quietlane:
-				break;
-			case CB_reachedRoundabout:
-				break;
-			case CB_rearfacingbabyseatinfrontpassengerseat:
-				break;
-			case CB_redRoute:
-				break;
-			case CB_redlines:
-				break;
-			case CB_reversing:
 				break;
 			case CB_rightHandLane:
 				break;
@@ -954,157 +672,44 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_roadClear:
 				break;
-			case CB_roadMarkingKeepLeftOverride:
-				break;
-			case CB_roadNarrows:
-				break;
-			case CB_roadPresentsHazards:
-				break;
-			case CB_roadSignKeepLeftOverride:
-				break;
-			case CB_roadWorks:
-				break;
-			case CB_roadWorksAhead:
-				break;
 			case CB_routeClear:
 				break;
 			case CB_routePlanned:
-				break;
-			case CB_ruralRoad:
+				beliefs.put(cb, true);
 				break;
 			case CB_safeToCross:
 				break;
 			case CB_safeToEnter:
 				break;
-			case CB_schoolEntrance:
-				break;
-			case CB_schoolEntranceMarkings:
-				break;
-			case CB_seenSign:
-				break;
-			case CB_seenSignalByAuthorisedPerson:
-				break;
 			case CB_sharingRoadWithOthers:
 				break;
 			case CB_sidelightsOff:
-				break;
-			case CB_sideroad:
-				break;
-			case CB_signConfictsWithAuthorisedPersonDirection:
-				break;
-			case CB_signFlashingAmber:
-				break;
-			case CB_signFlashingRedX:
-				break;
-			case CB_signSayingStop:
-				break;
-			case CB_signalledRoundabout:
-				break;
-			case CB_signsAdviseRestrictions:
+				beliefs.put(cb, true);
 				break;
 			case CB_singleCarriageWay:
 				break;
 			case CB_singleTrackRoad:
 				break;
-			case CB_skidding:
-				break;
-			case CB_sliproad:
-				break;
-			case CB_slowMovingTraffic:
-				break;
-			case CB_slowMovingVehicle:
-				break;
-			case CB_slowMovingVehicleInfront:
-				break;
-			case CB_speedlimitForHardShoulder:
-				break;
 			case CB_stationary:
 				break;
 			case CB_stationaryTraffic:
 				break;
-			case CB_stationaryVehicleInFront:
-				break;
 			case CB_stayingInLane:
-				break;
-			case CB_stopForChildrenSign:
-				break;
-			case CB_stopSign:
-				break;
-			case CB_stopSignCrossing:
-				break;
-			case CB_taxibay:
-				break;
-			case CB_tempObstructingTraffic:
 				break;
 			case CB_toJunction10meters:
 				break;
 			case CB_toflashingAmber:
 				break;
-			case CB_toucanCrossing:
-				break;
 			case CB_tpDirectingLeft:
-				break;
-			case CB_trafficCalming:
-				break;
-			case CB_trafficCongested:
-				break;
-			case CB_trafficQueuing:
-				break;
-			case CB_trafficSlow:
-				break;
-			case CB_tram:
-				break;
-			case CB_tramPassingLane:
-				break;
-			case CB_tramStop:
-				break;
-			case CB_tramlines:
-				break;
-			case CB_tramlinesCrossingApproach:
 				break;
 			case CB_turning:
 				break;
 			case CB_unableToStopByWhiteLine:
 				break;
-			case CB_unncessaryObstruction:
-				break;
-			case CB_uphill:
-				break;
-			case CB_urbanClearway:
-				break;
-			case CB_vehicleDoesntFitsInCentralReservation:
-				break;
-			case CB_vehicleFitsInCentralReservation:
-				break;
 			case CB_vehicleSafe:
-				break;
-			case CB_vehiclesWishToOvertake:
-				break;
-			case CB_visibilityReduced:
-				break;
-			case CB_wetWeather:
-				break;
-			case CB_whiteDiagonalStripeWhiteBrokenBorder:
-				break;
-			case CB_whiteDiagonalStripeWhiteSolidBorder:
+				beliefs.put(cb, true);
 				break;
 			case CB_whiteLineAcrossRoad:
-				break;
-			case CB_windy:
-				break;
-			case CB_withinCyclelaneOpteration:
-				break;
-			case CB_withinTimePlateTimes:
-				break;
-			case CB_withinUrbanClearwayHours:
-				break;
-			case CB_workVehicleSign:
-				break;
-			case CB_yellowLine:
-				break;
-			case CB_yellowMarkingsOnKerb:
-				break;
-			case CB_zebraCrossing:
 				break;
 			default:
 				beliefs.put(cb, false);
