@@ -536,16 +536,12 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			switch(cb)
 			{
 			case CB_allChildrenUsingChildSeatAsRequired:
+				beliefs.put(cb, true);
 				break;
 			case CB_allPassengersWearingSeatBeltsAsRequired:
-				break;
-			case CB_amber:
+				beliefs.put(cb, true);
 				break;
 			case CB_approachingCorner:
-				break;
-			case CB_approachingFog:
-				break;
-			case CB_approachingJunction:
 				break;
 			case CB_atTrafficLight:
 				break;
