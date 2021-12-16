@@ -914,98 +914,144 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			case CB_policeDirectingLeft:
 				break;
 			case CB_policeflashingBlue:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_policeflashingHeadlight:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_policehornSounding:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_preventingAccessForEmergencyServices:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_prohibitedToStopPark:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_propertyEntrance:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_publicTransport:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_puffinCrossing:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_pulledOver:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_quietlane:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_reachedRoundabout:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_rearfacingbabyseatinfrontpassengerseat:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_redRoute:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_redlines:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_reversing:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_roadMarkingKeepLeftOverride:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_roadNarrows:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_roadPresentsHazards:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_roadSignKeepLeftOverride:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_roadWorks:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_roadWorksAhead:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_ruralRoad:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_schoolEntrance:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_schoolEntranceMarkings:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_seenSign:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_seenSignalByAuthorisedPerson:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_sideroad:
+				
 				break;
 			case CB_signConfictsWithAuthorisedPersonDirection:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_signFlashingAmber:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_signFlashingRedX:
+				beliefs.put(cb, false);//Not simulated
 				break;
-			case CB_signSayingStop:
+			case CB_emergencyStopSign:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_signalledRoundabout:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_signsAdviseRestrictions:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_skidding:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_sliproad:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_slowMovingTraffic:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_slowMovingVehicle:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_slowMovingVehicleInfront:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_speedlimitForHardShoulder:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_stationaryVehicleInFront:
 				break;
 			case CB_stopForChildrenSign:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_stopSign:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_stopSignCrossing:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_taxibay:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_tempObstructingTraffic:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_toucanCrossing:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_trafficCalming:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_trafficCongested:
 				break;
@@ -1014,50 +1060,73 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			case CB_trafficSlow:
 				break;
 			case CB_tram:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_tramPassingLane:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_tramStop:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_tramlines:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_tramlinesCrossingApproach:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_unncessaryObstruction:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_uphill:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_urbanClearway:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_vehicleDoesntFitsInCentralReservation:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_vehicleFitsInCentralReservation:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_vehiclesWishToOvertake:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_visibilityReduced:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_wetWeather:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_whiteDiagonalStripeWhiteBrokenBorder:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_whiteDiagonalStripeWhiteSolidBorder:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_windy:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_withinCyclelaneOpteration:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_withinTimePlateTimes:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_withinUrbanClearwayHours:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_workVehicleSign:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_yellowLine:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_yellowMarkingsOnKerb:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_zebraCrossing:
+				beliefs.put(cb, false);//Not simulated
 				break;
 			default:
 				break;

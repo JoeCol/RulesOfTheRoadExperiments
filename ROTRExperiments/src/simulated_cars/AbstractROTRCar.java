@@ -232,7 +232,7 @@ public abstract class AbstractROTRCar extends AbstractCar
 		CB_signConfictsWithAuthorisedPersonDirection("signConfictsWithAuthorisedPersonDirection"),
 		CB_signFlashingAmber("signFlashingAmber"),
 		CB_signFlashingRedX("signFlashingRedX"),
-		CB_signSayingStop("signSayingStop"),
+		CB_emergencyStopSign("emergencyStopSign"),
 		CB_signalledRoundabout("signalledRoundabout"),
 		CB_signsAdviseRestrictions("signsAdviseRestrictions"),
 		CB_singleCarriageWay("singleCarriageWay"),

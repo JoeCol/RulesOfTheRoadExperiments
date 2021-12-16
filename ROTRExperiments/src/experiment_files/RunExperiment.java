@@ -209,7 +209,4 @@ public class RunExperiment
 		pnlWorld.revalidate();
 		pnlWorld.repaint();
 	}
-
-	
-
 }
