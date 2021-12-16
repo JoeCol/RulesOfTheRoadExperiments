@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/jcoll/Documents/GitHub/SimpleCarSimulator/SimpleCarSimulator/bin/ExportedJAR.jar" sourcepath="/Users/user/Documents/GitHub/SimpleCarSimulator/SimpleCarSimulator"/>
 	<classpathentry kind="lib" path="resources"/>
+	<classpathentry kind="lib" path="resources/SimpleCarSimulator.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

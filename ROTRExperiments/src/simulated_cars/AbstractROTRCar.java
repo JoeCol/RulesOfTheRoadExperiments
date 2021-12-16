@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import core_car_sim.AbstractCar;
-import core_car_sim.AbstractCell;
 import core_car_sim.Point;
+import core_car_sim.WorldSim;
 import prologfiles.RulesOfTheRoad;
 import prologfiles.RulesOfTheRoad.ROTROutcome;
 
@@ -612,12 +612,12 @@ public abstract class AbstractROTRCar extends AbstractCar
 	}
 	
 	@Override
-	public void visibleWorldUpdate(AbstractCell[][] world, Point location)
+	public void visibleWorldUpdate(WorldSim world, Point location)
 	{
 		triggerCarEvents(world, location);
 	}
 
-	private void triggerCarEvents(AbstractCell[][] world, Point location) 
+	private void triggerCarEvents(WorldSim world, Point location) 
 	{
 		for (CarEvents ce : cel)
 		{
