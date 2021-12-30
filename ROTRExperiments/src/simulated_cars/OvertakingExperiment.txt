@@ -11,4 +11,4 @@
 |^^|
 |^^|
 Car AI 1 7
-Car Slow 1 6
+Car Slow 1 6 north

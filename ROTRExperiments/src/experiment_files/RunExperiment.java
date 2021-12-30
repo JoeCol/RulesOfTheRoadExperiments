@@ -24,9 +24,11 @@ import javax.swing.SpinnerNumberModel;
 
 import core_car_sim.AbstractCar;
 import core_car_sim.CarAddedListener;
+import core_car_sim.Direction;
 import core_car_sim.LoadWorld;
 import core_car_sim.Point;
 import core_car_sim.WorldSim;
+import simulated_cars.BasicAICar;
 import simulated_cars.ReactiveCar;
 
 
@@ -68,7 +70,6 @@ public class RunExperiment
 	
 	private JFrame frame;
 	private JLabel lblNewLabel;
-	private JFileChooser loadWorldDialog = new JFileChooser();
 	private WorldSim simworld;
 	private JPanel pnlWorld = new JPanel();
 	private Executor simulationThread = Executors.newSingleThreadExecutor();
@@ -99,13 +100,27 @@ public class RunExperiment
 			@Override
 			public AbstractCar createCar(String name, Point startingLoca)
 			{
-				return new ReactiveCar(startingLoca, 1);
+				if (name.equalsIgnoreCase("slow"))
+				{
+					return new BasicAICar(startingLoca, 1, Direction.north);
+				}
+				else
+				{
+					return new ReactiveCar(startingLoca, 1);
+				}
 			}
 	
 			@Override
 			public AbstractCar createCar(String name, Point startingLoca, String[] information)
 			{
-				return new ReactiveCar(startingLoca, 1);
+				if (name.equalsIgnoreCase("slow"))
+				{
+					return new BasicAICar(startingLoca, 1, Direction.valueOf(information[0]));
+				}
+				else
+				{
+					return new ReactiveCar(startingLoca, 1);
+				}
 			}
 		};
 	}
@@ -123,8 +138,42 @@ public class RunExperiment
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		frame.getContentPane().add(panel, BorderLayout.NORTH);
 		
-		JButton btnNewButton = new JButton("Load Simulation");
+		JButton btnNewButton = new JButton("Load Overtaking");
 		panel.add(btnNewButton);
+		
+		JButton btnNewButton_2 = new JButton("Load Traffic Light");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/simulated_cars/TrafficLightExperiment.txt"));
+					simworld = LoadWorld.loadWorldFromFile(br, cal);
+					pnlWorld.setLayout(new GridLayout(simworld.getHeight(), simworld.getWidth(), 1, 1));
+					updateGUIWorld();
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		panel.add(btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("Load Turn Right");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/simulated_cars/TurnRightExperiment.txt"));
+					simworld = LoadWorld.loadWorldFromFile(br, cal);
+					pnlWorld.setLayout(new GridLayout(simworld.getHeight(), simworld.getWidth(), 1, 1));
+					updateGUIWorld();
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		panel.add(btnNewButton_3);
 		
 		JButton btnNewButton_1 = new JButton("Run Simulation");
 		panel.add(btnNewButton_1);
@@ -152,14 +201,6 @@ public class RunExperiment
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					/*if (loadWorldDialog.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
-					{
-						BufferedReader br = new BufferedReader(new FileReader(loadWorldDialog.getSelectedFile()));
-						simworld = LoadWorld.loadWorldFromFile(br, cal);
-						updateGUIWorld();
-					}*/
-					//While testing
-					
 					BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/src/simulated_cars/OvertakingExperiment.txt"));
 					simworld = LoadWorld.loadWorldFromFile(br, cal);
 					pnlWorld.setLayout(new GridLayout(simworld.getHeight(), simworld.getWidth(), 1, 1));

@@ -11,7 +11,7 @@
 |^V|||||
 |^V|||||
 Car AI 1 7
-Car Slow 2 1
-Car Slow 2 2
-Car Slow 2 4
-Car Slow 2 5 
+Car Slow 2 1 south
+Car Slow 2 2 south
+Car Slow 2 4 south
+Car Slow 2 5 south

@@ -289,6 +289,22 @@ public abstract class AbstractROTRCar extends AbstractCar
 		CB_zebraCrossing("zebraCrossing");
 		
 		public final String fileValue;
+		private static final HashMap<String, CarBelief> lookup = new HashMap<String, CarBelief>();
+		static {
+	        for (CarBelief d : CarBelief.values()) {
+	            lookup.put(d.fileValue, d);
+	        }
+	    }
+		
+		public static CarBelief get(String value) {
+	        return lookup.get(value);
+	    }
+		
+		public String toString()
+		{
+			return fileValue;
+		}
+		
 		private CarBelief(String beliefValue)
 		{
 			fileValue = beliefValue;
@@ -341,9 +357,26 @@ public abstract class AbstractROTRCar extends AbstractCar
 		CI_undertaking("undertaking"),
 		CI_uturn("uturn");
 		public final String fileValue;
+		
+		private static final HashMap<String, CarIntention> lookup = new HashMap<String, CarIntention>();
+		static {
+	        for (CarIntention d : CarIntention.values()) {
+	            lookup.put(d.fileValue, d);
+	        }
+	    }
+		
+		public static CarIntention get(String value) {
+	        return lookup.get(value);
+	    }
+		
 		private CarIntention(String beliefValue)
 		{
 			fileValue = beliefValue;
+		}
+		
+		public String toString()
+		{
+			return fileValue;
 		}
 	};
 	
@@ -571,9 +604,26 @@ public abstract class AbstractROTRCar extends AbstractCar
 		CA_wheel_toward_from_kerb("wheel_toward_from_kerb");
 		
 		public final String fileValue;
+		
+		private static final HashMap<String, CarAction> lookup = new HashMap<String, CarAction>();
+		static {
+	        for (CarAction d : CarAction.values()) {
+	            lookup.put(d.fileValue, d);
+	        }
+	    }
+		
+		public static CarAction get(String value) {
+	        return lookup.get(value);
+	    }
+		
 		private CarAction(String beliefValue)
 		{
 			fileValue = beliefValue;
+		}
+		
+		public String toString()
+		{
+			return fileValue;
 		}
 	}
 	
@@ -634,11 +684,11 @@ public abstract class AbstractROTRCar extends AbstractCar
 			{
 				if (rotr.legalRequirement)
 				{
-					ce.actionUpdate(CarAction.valueOf(rotr.action), CarPriority.CP_MUST);
+					ce.actionUpdate(CarAction.get(rotr.action), CarPriority.CP_MUST);
 				}
 				else
 				{
-					ce.actionUpdate(CarAction.valueOf(rotr.action), CarPriority.CP_SHOULD);
+					ce.actionUpdate(CarAction.get(rotr.action), CarPriority.CP_SHOULD);
 				}
 			}	
 		}

@@ -8,8 +8,10 @@ import core_car_sim.WorldSim;
 
 public class ReactiveCar extends AbstractROTRCar implements CarEvents
 {
-	private boolean haveMoved = false;
+	private boolean isFinished = false;
 	ArrayDeque<Direction> movement = new ArrayDeque<Direction>();
+	private boolean overtakenOther = false;
+	private boolean getIntoLeftLane = false;
 	
 	public ReactiveCar(Point startPos, int startingSpeed)
 	{
@@ -20,24 +22,37 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 	@Override
 	protected ArrayDeque<Direction> getSimulationRoute()
 	{
-		intentions.clear();
-		beliefs.clear();
 		updateOutcomes();
-		movement.add(Direction.north);
-		haveMoved = true;
+		if (getIntoLeftLane && overtakenOther)
+		{
+			movement.add(Direction.west);
+			beliefs.put(CarBelief.CB_overtaking, false);
+		}
+		else if (intentions.get(CarIntention.CI_overtake))
+		{
+			movement.add(Direction.east);
+			intentions.put(CarIntention.CI_overtake, false);
+			beliefs.put(CarBelief.CB_overtaking, true);
+		}
+		while (movement.size() != getSpeed())
+		{
+			movement.add(Direction.north);
+		}
 		return movement;
 	}
 
 	@Override
 	protected boolean isFinished(Point arg0)
 	{
-		return haveMoved && arg0 == getStartingPosition();
+		return isFinished;
 	}
 
 	@Override
 	public void worldUpdate(WorldSim world, Point location) 
 	{
-		updateBeliefs(world, location);		
+		updateBeliefs(world, location);		//needed -2 due to speed
+		overtakenOther = world.containsCar(location.getX()-1, location.getY()+1) 
+				|| world.containsCar(location.getX()-1, location.getY()+2);
 	}
 
 	@Override
@@ -146,6 +161,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 		case CA_buildup_speed_on_motorway:
 			break;
 		case CA_cancel_overtaking:
+			intentions.put(CarIntention.CI_overtake, false);
 			break;
 		case CA_cancel_reverse:
 			break;
@@ -313,9 +329,12 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			break;
 		case CA_move_adjacent_lane:
 			break;
-		case CA_move_left:
+		case CA_move_left: //Move left after overtaking
+			//Go to left lane if possible
+			getIntoLeftLane = true;
 			break;
 		case CA_move_quickly_past:
+			setSpeed(2);
 			break;
 		case CA_move_to_left_hand_lane:
 			break;
@@ -488,7 +507,6 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 		case CA_wheel_toward_from_kerb:
 			break;
 		}
-		
 	}
 	
 	public void updateBeliefs(WorldSim world, Point location)
@@ -507,14 +525,15 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_atTrafficLight:
 				break;
-			case CB_behindWantToOvertake:
-				beliefs.put(cb, world.containsCar(location.getX(), location.getY()));//Not car in front yet
+			case CB_behindWantToOvertake: //Only for north
+				beliefs.put(cb, world.containsCar(location.getX(), location.getY() - 1));//Not car in front yet
+				intentions.put(CarIntention.CI_overtake, beliefs.get(cb));
 				break;
 			case CB_bendInRoad://Not simulated
 				beliefs.put(cb, true);
 				break;
 			case CB_brokendown://Car cannot break down.
-				beliefs.put(cb, true);
+				beliefs.put(cb, false);
 				break;
 			case CB_canReadNumberPlate:
 				beliefs.put(cb, true);
@@ -542,7 +561,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				beliefs.put(cb, isCrashed());
 				break;
 			case CB_directionSigns:
-				beliefs.put(cb, true);
+				beliefs.put(cb, false);
 				break;
 			case CB_dottedWhiteLineAcrossRoad:
 				break;
@@ -552,7 +571,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				beliefs.put(cb, true);
 				break;
 			case CB_dualCarriageWay:
-				
+				beliefs.put(cb, true);
 				break;
 			case CB_enterWhiteDiagonalStripeWhiteBrokenBorderNecessary:
 				break;
@@ -586,6 +605,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			case CB_informOtherRoadUser:
 				break;
 			case CB_laneAvailiable:
+				
 				break;
 			case CB_laneCleared:
 				break;
@@ -636,6 +656,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			case CB_rightHandLane:
 				break;
 			case CB_roadAheadClear:
+				beliefs.put(cb, true);
 				break;
 			case CB_roadClear:
 				break;
@@ -678,7 +699,6 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_whiteLineAcrossRoad:
 				break;
-				
 			case CB_accessProperty:
 				break;
 			case CB_activefrontalairbaginfrontpassengerseat:

@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import simulated_cars.AbstractROTRCar.CarBelief;
 import simulated_cars.AbstractROTRCar.CarIntention;
@@ -33,9 +34,44 @@ public class RulesOfTheRoad
 	{
 		ArrayList<ROTROutcome> toreturn = new ArrayList<ROTROutcome>();
 		String fileLocation = System.getProperty("user.dir") + "/src/prologfiles/runrotr.pl";
-		String toWrite = runFile.replace("BELIEFS", beliefs.toString()).replace("INTENTIONS", intentions.toString());
+		StringBuilder bai = new StringBuilder();
+		bai.append("[");
+		boolean start = true;
+		for (Entry<CarBelief, Boolean> c : beliefs.entrySet())
+		{
+			if (c.getValue())
+			{
+				if (!start)
+				{
+					bai.append(",");
+				}
+				bai.append(c.getKey().toString());
+				start = false;
+			}
+		}
+		bai.append("]");
+		String toWrite = runFile.replace("BELIEFS", bai.toString());
 		
-		ProcessBuilder pb = new ProcessBuilder("swipl", fileLocation);
+		bai.setLength(0);
+		bai.append("[");
+		start = true;
+		for (Entry<CarIntention, Boolean> c : intentions.entrySet())
+		{
+			if (c.getValue())
+			{
+				if (!start)
+				{
+					bai.append(",");
+				}
+				bai.append(c.getKey().toString());
+				start = false;
+			}
+		}
+		bai.append("]");
+		toWrite = toWrite.replace("INTENTIONS", bai.toString());
+		System.out.println(toWrite);
+		//$PATH of pb does not resolve properly on MacOS
+		ProcessBuilder pb = new ProcessBuilder("/Applications/SWI-Prolog.app/Contents/MacOS/swipl", fileLocation);
 		try {
 			PrintWriter out = new PrintWriter(fileLocation);
 			out.print(toWrite);
@@ -45,6 +81,7 @@ public class RulesOfTheRoad
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			
 			String line = reader.readLine();
+			System.out.println("\n" + line);
 			String[] s = line.substring(1, line.length() - 1).split(",");
 			String[] item;
 			for (int i = 0; i < s.length; i++)
