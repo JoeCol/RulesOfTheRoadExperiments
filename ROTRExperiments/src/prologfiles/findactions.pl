@@ -360,7 +360,7 @@ generateActions(r180, B, I, R) :- generateActions(r182, B, I, R), !.
 
 %Rule Description: Techniques for turning right (not a rule)
 %Rule Description: Turning Left
-generateActions(r182, B, I, R) :- member(turnRight,I), generateActions(r180, B, I, Y), append([should-use_left_indicator,must-avoid_overtaking],Y,R), !.
+generateActions(r182, B, I, R) :- member(turnLeft,I), generateActions(r180, B, I, Y), append([should-use_left_indicator,must-avoid_overtaking],Y,R), !.
 generateActions(r182, B, I, R) :- generateActions(r183, B, I, R), !.
 
 %Rule Description: While turning

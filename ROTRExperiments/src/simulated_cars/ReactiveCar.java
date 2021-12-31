@@ -1,17 +1,28 @@
 package simulated_cars;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashSet;
 
+import core_car_sim.AbstractCell.CellType;
 import core_car_sim.Direction;
 import core_car_sim.Point;
+import core_car_sim.TrafficLightCell;
 import core_car_sim.WorldSim;
 
 public class ReactiveCar extends AbstractROTRCar implements CarEvents
 {
 	private boolean isFinished = false;
+	private Direction defaultMovement = Direction.north;
 	ArrayDeque<Direction> movement = new ArrayDeque<Direction>();
 	private boolean overtakenOther = false;
 	private boolean getIntoLeftLane = false;
+	private boolean atWhiteLine = false;
+	private boolean safegap = false;
+	private boolean atRightTurn = false;
+	private boolean wallAhead = false;
+	
+	private HashSet<CarAction> actionsToDo = new HashSet<CarAction>();
 	
 	public ReactiveCar(Point startPos, int startingSpeed)
 	{
@@ -34,9 +45,40 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			intentions.put(CarIntention.CI_overtake, false);
 			beliefs.put(CarBelief.CB_overtaking, true);
 		}
+		else if (actionsToDo.contains(CarAction.CA_stop_at_white_line) && atWhiteLine)
+		{
+			setSpeed(0);
+			intentions.put(CarIntention.CI_setOff, true);
+			actionsToDo.remove(CarAction.CA_stop_at_white_line);
+		}
+		else if (intentions.get(CarIntention.CI_turnRight) && safegap)
+		{
+			setSpeed(1);
+			movement.add(Direction.east);
+			defaultMovement = Direction.east;
+			intentions.remove(CarIntention.CI_turnRight);
+			beliefs.put(CarBelief.CB_turning, true);
+			
+		}
+		else if (intentions.get(CarIntention.CI_turnRight) && !safegap)
+		{
+			if (atRightTurn)
+			{
+				setSpeed(0);
+			}
+		}
+		else if (wallAhead)
+		{
+			setSpeed(0);
+		}
+		else if (getSpeed() == 0)
+		{
+			setSpeed(1);
+		}
+		
 		while (movement.size() != getSpeed())
 		{
-			movement.add(Direction.north);
+			movement.add(defaultMovement);
 		}
 		return movement;
 	}
@@ -53,6 +95,61 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 		updateBeliefs(world, location);		//needed -2 due to speed
 		overtakenOther = world.containsCar(location.getX()-1, location.getY()+1) 
 				|| world.containsCar(location.getX()-1, location.getY()+2);
+		
+		//check if traffic light ahead
+		intentions.put(CarIntention.CI_approachingTrafficLight, false);
+		for (int i = location.getY(); i >= 0; i--)
+		{
+			if (world.getCell(location.getX() - 1, i).getCellType() == CellType.ct_information)
+			{
+				TrafficLightCell tlc = (TrafficLightCell) world.getCell(location.getX() - 1, i);
+				Point whiteLineLocation = new Point(location.getX() - 1 + tlc.getInformation().stopAtReference.getX(),
+													i + tlc.getInformation().stopAtReference.getY());
+				atWhiteLine = whiteLineLocation.equals(location);
+				intentions.put(CarIntention.CI_approachingTrafficLight, i != location.getY());
+			}
+		}
+		
+		//check if right turn ahead
+		intentions.put(CarIntention.CI_turnRight, false);
+		for (int i = location.getY(); i >= 0; i--)
+		{
+			if (world.getCell(location.getX() + 2, i).getCellType() == CellType.ct_road)
+			{
+				//If im not facing north, than either I have turned/turning
+				intentions.put(CarIntention.CI_turnRight, defaultMovement == Direction.north);
+				atRightTurn = i == location.getY();
+			}
+		}
+		
+		//Check if safegap to turn right
+		safegap = true;
+		for (int i = location.getY(); i >= 0; i--)
+		{
+			//If any car approaching in visible space
+			if (world.containsCar(location.getX()+1, i))
+			{
+				safegap = false;
+			}
+		}
+		
+		//Stop if no more road
+		switch (defaultMovement)
+		{
+		case east:
+			wallAhead = world.getCell(location.getX() + 1, location.getY()).getCellType() != CellType.ct_road;
+			break;
+		case north:
+			wallAhead = world.getCell(location.getX(), location.getY()-1).getCellType() != CellType.ct_road;
+			break;
+		case south:
+			wallAhead = world.getCell(location.getX(), location.getY()+1).getCellType() != CellType.ct_road;
+			break;
+		case west:
+			wallAhead = world.getCell(location.getX() - 1, location.getY()).getCellType() != CellType.ct_road;
+			break;
+		
+		}
 	}
 
 	@Override
@@ -455,6 +552,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 		case CA_stop_at_sign:
 			break;
 		case CA_stop_at_white_line:
+			actionsToDo.add(action);
 			break;
 		case CA_switch_off_engine:
 			break;
@@ -501,6 +599,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 		case CA_wait_until_route_clear:
 			break;
 		case CA_wait_until_safe_gap:
+			actionsToDo.add(action);
 			break;
 		case CA_wheel_away_from_kerb:
 			break;
@@ -523,7 +622,8 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				break;
 			case CB_approachingCorner:
 				break;
-			case CB_atTrafficLight:
+			case CB_atTrafficLight://Only traffic lights simulated
+				beliefs.put(cb, world.getCell(location.getX() - 1, location.getY()).getCellType() == CellType.ct_information);
 				break;
 			case CB_behindWantToOvertake: //Only for north
 				beliefs.put(cb, world.containsCar(location.getX(), location.getY() - 1));//Not car in front yet
@@ -581,6 +681,17 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				beliefs.put(cb, world.speedLimit(location.getX(), location.getY()) < getSpeed());
 				break;
 			case CB_exitClear:
+				boolean exitIsClear = true;
+				for (int i = location.getY() - 1; i >= 0; i--)
+				{
+					//Check directly in front and one to the right
+					if (world.containsCar(location.getX(), i) || world.containsCar(location.getX() + 1, i))
+					{
+						exitIsClear = false;
+						break;
+					}
+				}
+				beliefs.put(cb, exitIsClear);
 				break;
 			case CB_finishedManoeuvre:
 				break;
@@ -605,7 +716,6 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			case CB_informOtherRoadUser:
 				break;
 			case CB_laneAvailiable:
-				
 				break;
 			case CB_laneCleared:
 				break;
@@ -622,12 +732,48 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 			case CB_leftMostLane:
 				break;
 			case CB_lightAmber:
+				beliefs.put(cb, false);
+				for (int x = 0; x < world.getWidth(); x++)
+				{
+					for (int y = 0; y < world.getHeight(); y++)
+					{
+						if (world.getCell(x, y).getCellType() == CellType.ct_information)
+						{
+							TrafficLightCell tfl = (TrafficLightCell) world.getCell(x, y);
+							beliefs.put(cb, tfl.getInformation().yellowOn);
+						}
+					}
+				}
 				break;
 			case CB_lightFlashingAmber:
 				break;
 			case CB_lightGreen:
+				beliefs.put(cb, false);
+				for (int x = 0; x < world.getWidth(); x++)
+				{
+					for (int y = 0; y < world.getHeight(); y++)
+					{
+						if (world.getCell(x, y).getCellType() == CellType.ct_information)
+						{
+							TrafficLightCell tfl = (TrafficLightCell) world.getCell(x, y);
+							beliefs.put(cb, tfl.getInformation().greenOn);
+						}
+					}
+				}
 				break;
 			case CB_lightRed:
+				beliefs.put(cb, false);
+				for (int x = 0; x < world.getWidth(); x++)
+				{
+					for (int y = 0; y < world.getHeight(); y++)
+					{
+						if (world.getCell(x, y).getCellType() == CellType.ct_information)
+						{
+							TrafficLightCell tfl = (TrafficLightCell) world.getCell(x, y);
+							beliefs.put(cb, tfl.getInformation().redOn);
+						}
+					}
+				}
 				break;
 			case CB_mainRoadNextRoad:
 				break;
@@ -1104,7 +1250,7 @@ public class ReactiveCar extends AbstractROTRCar implements CarEvents
 				beliefs.put(cb, false);//Not simulated
 				break;
 			case CB_vehicleDoesntFitsInCentralReservation:
-				beliefs.put(cb, false);//Not simulated
+				beliefs.put(cb, true);//Not simulated
 				break;
 			case CB_vehicleFitsInCentralReservation:
 				beliefs.put(cb, false);//Not simulated

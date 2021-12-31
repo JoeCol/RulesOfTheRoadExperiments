@@ -1,4 +1,4 @@
 :- include('findactions').
 :- initialization(main).
 
-main :- getActions(standard,[allPassengersWearingSeatBeltsAsRequired,driving,fuel,roadAheadClear,allChildrenUsingChildSeatAsRequired,vehicleSafe,bendInRoad,dualCarriageWay,routePlanned,headlightsOff,canReadNumberPlate,completeOvertakeBeforeSolidWhiteLine,sidelightsOff],[],Actions), write(Actions), halt(0).
+main :- getActions(standard,[headlightsOff,completeOvertakeBeforeSolidWhiteLine,sidelightsOff,allPassengersWearingSeatBeltsAsRequired,fuel,driving,allChildrenUsingChildSeatAsRequired,exceedingSpeedLimit,canReadNumberPlate,vehicleSafe,exitClear,routePlanned,roadAheadClear,overtaking,dualCarriageWay,vehicleDoesntFitsInCentralReservation,bendInRoad],[],Actions), write(Actions), halt(0).

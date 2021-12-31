@@ -39,6 +39,8 @@ public class RunExperiment
 		int delay = 0;
 		int until = 0;
 		int stepsSimulated = 0;
+		public boolean finished = false;
+		
 		public Simulate(int delayTime, int noOfSteps)
 		{
 			delay = delayTime;
@@ -49,7 +51,7 @@ public class RunExperiment
 		public void run()
 		{
 			int i = 0;
-			boolean finished = false;
+			
 			while (!finished)
 			{
 				simworld.simulate(1);
@@ -62,7 +64,10 @@ public class RunExperiment
 				}
 				updateGUIWorld();
 				lblNewLabel.setText("Steps simulated: " + ++stepsSimulated);
-				finished = until == 0 ? simworld.allFinished() : until == ++i;
+				if (!finished)
+				{
+					finished = until == 0 ? simworld.allFinished() : until == ++i;
+				}
 			}
 		}
 		
@@ -74,6 +79,7 @@ public class RunExperiment
 	private JPanel pnlWorld = new JPanel();
 	private Executor simulationThread = Executors.newSingleThreadExecutor();
 	private CarAddedListener cal;
+	private Simulate currentlyRunning = null;
 
 	/**
 	 * Launch the application.
@@ -216,14 +222,23 @@ public class RunExperiment
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-				
-				if (rdbtnNewRadioButton.isSelected())
+				if (currentlyRunning == null)
 				{
-					simulationThread.execute(new Simulate(250, 0));
+					if (rdbtnNewRadioButton.isSelected())
+					{
+						currentlyRunning = new Simulate(250, 0);
+						
+					}
+					else
+					{
+						currentlyRunning = new Simulate(250, (Integer)spinner.getValue());
+					}
+					simulationThread.execute(currentlyRunning);
 				}
 				else
 				{
-					simulationThread.execute(new Simulate(250, (Integer)spinner.getValue()));
+					currentlyRunning.finished = true;
+					currentlyRunning = null;
 				}
 			}
 		});
