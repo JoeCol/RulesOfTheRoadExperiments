@@ -30,6 +30,10 @@ import core_car_sim.Point;
 import core_car_sim.WorldSim;
 import simulated_cars.BasicAICar;
 import simulated_cars.ReactiveCar;
+import simulated_cars.RudeCar;
+
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 
 public class RunExperiment
@@ -77,6 +81,7 @@ public class RunExperiment
 	private JLabel lblNewLabel;
 	private WorldSim simworld;
 	private JPanel pnlWorld = new JPanel();
+	private JComboBox<String> cbAI = new JComboBox<String>();
 	private Executor simulationThread = Executors.newSingleThreadExecutor();
 	private CarAddedListener cal;
 	private Simulate currentlyRunning = null;
@@ -112,7 +117,14 @@ public class RunExperiment
 				}
 				else
 				{
-					return new ReactiveCar(startingLoca, 1);
+					if (cbAI.getSelectedItem() == "Reactive")
+					{
+						return new ReactiveCar(startingLoca, 1);
+					}
+					else
+					{
+						return new RudeCar(startingLoca, 1);
+					}
 				}
 			}
 	
@@ -125,7 +137,14 @@ public class RunExperiment
 				}
 				else
 				{
-					return new ReactiveCar(startingLoca, 1);
+					if (cbAI.getSelectedItem() == "Reactive")
+					{
+						return new ReactiveCar(startingLoca, 1);
+					}
+					else
+					{
+						return new RudeCar(startingLoca, 1);
+					}
 				}
 			}
 		};
@@ -180,6 +199,10 @@ public class RunExperiment
 			}
 		});
 		panel.add(btnNewButton_3);
+		
+		cbAI.setModel(new DefaultComboBoxModel<String>(new String[] {"Reactive", "Must Only"}));
+		cbAI.setSelectedIndex(0);
+		panel.add(cbAI);
 		
 		JButton btnNewButton_1 = new JButton("Run Simulation");
 		panel.add(btnNewButton_1);
