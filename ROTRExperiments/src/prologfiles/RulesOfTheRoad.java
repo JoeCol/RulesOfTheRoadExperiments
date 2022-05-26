@@ -16,7 +16,7 @@ public class RulesOfTheRoad
 	public static final String runFile = ":- include('findactions')." + System.lineSeparator()
 			+ ":- initialization(main)." + System.lineSeparator()
 			+ System.lineSeparator()
-			+ "main :- getActions(standard,BELIEFS,INTENTIONS,Actions), write(Actions), halt(0).";
+			+ "main :- getRecommendedActions(standard,BELIEFS,INTENTIONS,Actions), write(Actions), halt(0).";
 	
 	public static class ROTROutcome
 	{
