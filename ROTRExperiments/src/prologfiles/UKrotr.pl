@@ -413,8 +413,8 @@ rule(r225a, standard, [flashingAmberBeacon], [], [should-approach_with_caution])
 rule(r225b, standard, [maxPossibleSpeed25orLess, onUnrestictedDualCarriageway], [], [must-flash_amber_beacon]).
 
 %Rule Description: Headlights
-rule(r226a, standard, [visibilityReduced], [], [must-headlights_on,  should-fog_lights_on]).
-rule(r226b, standard, [], [], [must-fog_lights_off]).
+rule(r226a, standard, [visibilitySeriouslyReduced], [], [must-headlights_on,  should-fog_lights_on]).
+rule(r226b, standard, [visibilityClear], [], [must-fog_lights_off]).
 
 %Rule Description: Wet weather
 rule(r227, standard, [wetWeather], [], [should-increase_distance_to_car_infront]).
