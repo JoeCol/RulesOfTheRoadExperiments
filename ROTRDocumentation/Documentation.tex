@@ -1,0 +1,62 @@
+\documentclass{article}
+\title{ROTR Experiment Documentation}
+\author{Joe Collenette}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Overview}
+This document goes over how to setup and run the ROTR Experiment.
+This assumes that you are using eclipse to run the document but should work with other IDE's.
+
+There are some dependences that the projects uses:
+\begin{description}
+    \item[Prolog] you will to setup and install Prolog, and make sure that it can be run from the command line at any folder.
+    \item[Simple Car Simulator] You will need to compile and export the SimpleCarSimulator to a jar file for the Experiment Files to run.
+\end{description}
+
+\section{Compiling Simple Car Simulator}
+Firstly you should test that the SimpleCarSimulator works on your system.
+This is a eclipse project, but should work on other systems.
+There is a test experiment world file called ``ExampleWorldFile.txt", which you can use to make sure that the SimpleCarSimulator runs.
+
+Using eclipse you can compile and run the project and should get a visual gui appear which allows you to load the ExampleWorldFile.
+Once you are happy that the SimpleCarSimulator runs you need to export it to a JAR file.
+In Eclipse you can go file->export which brings up the export screen.
+From the export you should choose JAR file from the JAVA section.
+Click Next. On the next screen the default settings should suffice, but you will need to give a location of where to save your JAR file.
+
+\section{Running the experiments}
+To run the experiments you will need to ensure that the exported JAR file from the SimpleCarSimulator is located in the bin folder.
+I typically call the exported jar file ``SimpleCarSimulator.jar''.
+You will also need to add this to your classpath when compiling to ensure that the project includes the jar file.
+
+In eclipse you can right click on the ROTRExperiment project and choose the properties option. 
+Then you navigate to the librarys tab, click on add external jar and choose the exported jar from the SimpleCarSimulator.
+
+You should be able to compile and run the experiment application with the main method being in the RunExperiment.java file.
+The experiment files are located in the simulated car folder which includes the (overtaking/trafficlight/turnright)experiment.txt
+You can use the GUI to load this files and run each experiment.
+
+\section{Writing your own world file}
+The world file is a txt which defines what the simulation world is for an experiment.
+The first two lines define the size of the world.
+Width as number then the height of the world.
+The next number should be the speed limit of the world, in number of cells per simulation step.
+The following lines should define which cells can be driven in.
+\begin{description}
+    \item[$>$] Right only
+    \item[$<$] Left only
+    \item[\^] Up only
+    \item[V] Down only
+    \item[+] Any direction     
+\end{description}
+
+Following this defines where the cars start and where the traffic lights are and there white lines.
+\begin{description}
+    \item[trl x y sx sy] Defines a traffic light at point x y and the traffic should stop at sx sy
+    \item[car name x y] Defines a car with a name, at point x y
+    \item[car name x y (Info)] Defines a car with a name at point x y, and passed Info as a split list of strings. 
+\end{description}
+\end{document}
