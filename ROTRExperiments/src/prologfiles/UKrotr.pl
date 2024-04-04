@@ -612,7 +612,7 @@ rule(r274, standard, [sliproad], [], [should-reduce_speed_on_slip_road]).
 rule(r276, standard, [brokendown, notOnMotorway], [], [should-get_off_road,  should-use_hazard_lights,  should-keep_sidelights_on]).
 
 %Rule Description: Breakdown (motorway)
-rule(r277, standard, [brokendown, motorway], [], [should-go_to_left_hand_land,  should-use_hazard_lights,  should-keep_sidelights_on,  should-pull_into_hard_shoulder,  pull_into_emergency_area]).
+rule(r277, standard, [brokendown, motorway], [], [should-go_to_left_hand_land,  should-use_hazard_lights,  should-keep_sidelights_on,  should-pull_into_hard_shoulder,  should-pull_into_emergency_area]).
 
 %Rule Description: Rejoin
 rule(r278, standard, [hardshoulder], [joinMotorway], [should-buildup_speed_on_hard_shoulder]).
